@@ -7,7 +7,7 @@ public class PanelPlay : PanelBase {
     public Image timeImg;
     bool flag;
 
-    float time, timeMax = 1f;
+    float time, timeMax = 1.4f;
     int score = 0;
     // Use this for initialization
     void Start() {
@@ -39,6 +39,7 @@ public class PanelPlay : PanelBase {
 
         int r = Random.Range(0, 3);
         string phep = "";
+        bool isChia = false;
         switch (r) {
             case 0://+
                 phep = "+";
@@ -52,28 +53,41 @@ public class PanelPlay : PanelBase {
                 phep = "*";
                 da = num1 * num2;
                 break;
-                //case 3://:
-                //    phep = ":";
-                //    da = num1/num2;
-                //   break;
+            case 3://:
+                phep = ":";
+                da = num1 * num2;
+                isChia = true;
+                break;
         }
-
-        text_que.text = num1 + phep + num2;
-
-        if (Random.Range(1, 9) <= 5) {
-            flag = true;
-        } else {
-            int da2 = Random.Range(da - 5, da + 5);
-            //Debug.Log(">>>>>>>> " + da2);
-            flag = false;
-            if (da2 == da) {
+        if (!isChia) {
+            text_que.text = num1 + phep + num2;
+            if (Random.Range(1, 9) < 5) {
                 flag = true;
+            } else {
+                int da2 = Random.Range(da - 5, da + 5);
+                flag = false;
+                if (da2 == da) {
+                    flag = true;
+                }
+                da = da2;
             }
-            da = da2;
-        }
 
-        text_ans.text = "= " + da;
-        //Debug.Log(flag + "   " + num1 + phep + num2 + " ---- " + da);
+            text_ans.text = "= " + da;
+        } else {
+            if (Random.Range(1, 9) < 5) {
+                flag = true;
+                int ra2 = Random.Range(0, 5);
+                if (ra2 % 2 == 0) {
+                    text_que.text = da + phep + num1;
+                    text_ans.text = "= " + num2;
+                } else {
+                    text_que.text = da + phep + num2;
+                    text_ans.text = "= " + num1;
+                }
+            } else {
+
+            }
+        }
     }
 
     public void answerTrue() {
